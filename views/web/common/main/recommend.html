@@ -1,0 +1,28 @@
+<div class="acrid">
+    <h3 class="acrid_widget_titx">
+        <strong>热门推荐</strong>
+    </h3>
+    <ul>
+        {{range $index,$elem := .Acrid}}
+        <li class="acrid_item1" style="position: relative">
+
+            <div class="acrid_item1_left" style="width: 20px;position: absolute;left: 0;top: 0">
+                <span class="acrid_label">{{$index | index}}</span>
+            </div>
+            <div class="acrid_item1_center fcc" style="width: 100%;margin-left: 25px;margin-right: 185px;justify-content: left">
+                                <a href="/category/{{$elem.id}}">{{$elem.title}}</a>
+<!--                {{$elem.title}}-->
+            </div>
+            <div class="acrid_item1_right fcc"
+                 style="width: 180px;position:absolute;right: 0;top: 0;background-color: #ffffff">
+                    <span class="acrid_prv">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                         阅读（47）
+                     </span>
+                <span class="acrid_data">{{$elem.add_time }}</span>
+            </div>
+
+        </li>
+        {{end}}
+    </ul>
+</div>

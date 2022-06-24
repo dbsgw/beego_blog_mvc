@@ -1,0 +1,43 @@
+{{template "/admin/common/ly_header.html" .}}
+
+<style>
+    .home {
+        display: flex;
+    }
+
+    .home_sidebar {
+        width: 250px;
+        height: calc(100vh - 68px);
+        background-color: #ffffff;
+    }
+
+    .home_container {
+        flex: 1;
+        padding: 20px;
+    }
+</style>
+<div class="home">
+    <div class="home_sidebar">
+        <!--        侧边栏-->
+        {{template "/admin/common/ly_sidebar.html" .}}
+    </div>
+    <div class="home_container">
+        <h1>添加分类</h1>
+        <div class="uk-card uk-card-default uk-card-body">
+            <form method="post" action="/admin/editSort" enctype="application/x-www-form-urlencoded">
+                <fieldset class="uk-fieldset">
+                    <div class="uk-margin">
+                        <input type="hidden" value="{{.Result.id}}" name="id">
+                        <input class="uk-input" name="name" type="text" placeholder="分类名称" value=" {{.Result.title}}">
+                    </div>
+
+                    <div class="uk-margin">
+                        <button class="uk-button uk-button-primary">保存</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</div>
+{{template "/admin/common/ly_footer.html" .}}

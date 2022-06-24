@@ -1,0 +1,56 @@
+.w {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/*水平居中*/
+.fcc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/*上下居中  靠两边*/
+.fsc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.a {
+    text-decoration: none;
+    color: #666666;
+}
+
+.a:hover {
+    text-decoration: none;
+    color: #9466ff;
+}
+
+a {
+    text-decoration: none;
+    color: #666666;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #9466ff;
+}
+
+
+html {
+    background-color: #f6f6f6;
+    min-width: 320px;
+}
+
+li {
+    list-style: none;
+}
+
+/*超出隐藏*/
+.hide {
+    overflow: hidden; /*超出长度的文字隐藏*/
+    text-overflow: ellipsis; /*文字隐藏以后添加省略号*/
+    white-space: nowrap; /*强制不换行*/
+}

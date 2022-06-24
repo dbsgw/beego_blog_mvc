@@ -1,0 +1,28 @@
+{{template "/web/common/header.html" .}}
+<!--博客首页-->
+
+<style>
+    .index {
+        display: flex;
+    }
+
+    .index_left {
+        flex: 1;
+    }
+
+    .index_right {
+        width: 300px;
+        margin-left: 20px;
+    }
+</style>
+
+<div class="w index" style="margin-top: 20px">
+    <div class="index_left">
+        <div class="uk-card uk-card-default uk-card-body " style="margin-bottom: 20px">
+            <h3 class="uk-card-title">{{.Article.title}}</h3>
+            {{.Article.content_html | str2html}}
+        </div>
+    </div>
+    {{template "/web/common/sidebar/index.html" .}}
+</div>
+{{template "/web/common/footer.html" .}}

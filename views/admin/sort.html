@@ -1,0 +1,80 @@
+{{template "/admin/common/ly_header.html" .}}
+
+<style>
+    .home {
+        display: flex;
+    }
+
+    .home_sidebar {
+        width: 250px;
+        height: calc(100vh - 68px);
+        background-color: #ffffff;
+    }
+
+    .home_container {
+        flex: 1;
+        padding: 20px;
+    }
+</style>
+<div class="home">
+    <div class="home_sidebar">
+        <!--        侧边栏-->
+        {{template "/admin/common/ly_sidebar.html" .}}
+    </div>
+    <div class="home_container">
+        <h1>分类管理</h1>
+        <a href="/admin/addSort" style="margin-bottom: 10px;display: inline-block;">
+            <button class="uk-button uk-button-default">添加分类</button>
+        </a>
+        <div class="uk-card uk-card-default uk-card-body">
+            <table class="uk-table uk-table-divider">
+                <thead>
+                <tr>
+                    <th class="uk-table-expand">名称</th>
+                    <th class="uk-table-expand">文章</th>
+                    <th class="uk-table-expand">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range $index,$elem := .Arr}}
+                <tr>
+                    <td>{{$elem.title}}</td>
+                    <td>19</td>
+                    <td>
+                        <input type="hidden" value="{{$elem.id}}">
+                        <button class="uk-button uk-button-primary sort_edit">编辑</button>
+                        <button class="uk-button uk-button-danger sort_del">删除</button>
+                    </td>
+                </tr>
+                {{end}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        $('.sort_edit').click(function () {
+            console.log(1111, $(this).parent().find('input').val())
+            location.href = "/admin/editSort?id=" + $(this).parent().find('input').val()
+        })
+        $('.sort_del').click(function () {
+            console.log(1111, $(this).parent().find('input').val())
+            console.log('删除')
+            // delSort
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/delSort",
+                data: {
+                    id: $(this).parent().find('input').val()
+                },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data, 'data', data.code)
+                    window.location.href = "/admin/sort"
+                }
+            });
+        })
+    </script>
+
+</div>
+{{template "/admin/common/ly_footer.html" .}}

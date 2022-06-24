@@ -1,0 +1,259 @@
+/*导航栏的*/
+.nav_header {
+    background-color: #ffffff;
+
+}
+
+.nav_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav > a {
+    padding: 0 15px;
+    text-decoration: none;
+    color: #666666;
+    font-size: 18px;
+}
+
+.nav > a:hover {
+    color: #9466ff;
+}
+
+.nav_logo {
+    max-height: 50px;
+    margin: 15px;
+}
+
+.nav_logo img {
+    max-height: 32px;
+}
+
+/*article  文章的*******************************************************************************************************************************************************/
+
+.article {
+    border: 1px solid #eaeaea;
+}
+
+.article:hover {
+    border-color: #9466ff;
+    background-color: #f3eeff;
+}
+
+.article_container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: left;
+}
+
+.article_right {
+    margin-left: 10px;
+}
+
+.article_container .article_right_title h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.article_container .article_right_describe {
+    font-size: 14px;
+    color: #555;
+}
+
+.article_container .article_left img {
+    max-width: none;
+    width: 160px;
+    height: 110px;
+}
+
+/*footer 底部*************************************************************************************************************************/
+
+.footer {
+    /*max-width: 1200px;*/
+    /*height: 200px;*/
+    font-size: 12px;
+    padding: 30px;
+    margin: 0 auto;
+    background-color: #2d3237;
+    color: #ffffff;
+}
+.footer .copyright .footer-menu ul li a {
+    color: #666;
+}
+.footer .copyright .footer-menu ul li {
+    padding: 0 20px;
+    list-style-type: none;
+}
+
+.footer .copyright .footer-menu ul {
+    display: flex;
+    /*padding: 20px;*/
+    padding-top: 30px;
+    flex-wrap: wrap;
+}
+.footer .copyright {
+    color: #666;
+}
+.footer .link-wrap ul li a {
+    color: #9295a2;
+}
+.footer .link-wrap ul li {
+    padding: 0 20px;
+    list-style-type: none;
+    font-size: 16px;
+}
+
+.footer .link-wrap ul {
+    display: flex;
+}
+
+.footer .link-wrap {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #3b424a;
+}
+
+/*authc    信息的*************************************************************************************************************************/
+
+.authc_content {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+
+
+}
+
+.authc_content1 {
+    padding: 0;
+    margin: 0;
+
+}
+
+.authc_content1 li {
+
+    margin: 5px 0;
+
+}
+
+.authc_content2 {
+    padding-left: 30px;
+    margin: 0;
+
+}
+
+.authc_content2 li {
+
+    margin: 5px 0;
+
+}
+
+.authc {
+    background-color: #fff;
+    padding: 10px;
+}
+
+.authc_title {
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 5px;
+
+
+}
+
+.authc_title p {
+    display: inline-block;
+    position: relative;
+}
+
+.authc_title > p:after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #9466ff;
+}
+
+/*gonggao 公告的*******************************************************************************************/
+.gonggao{
+    background-color: #fff;
+    margin: 20px 0;
+    padding: 10px;
+
+}
+.gonggao_content{
+    padding: 10px;
+}
+
+/*.acrid*****************************************.acrid**********************/
+
+.acrid ul{
+    padding: 0;
+    margin: 0;
+}
+.acrid {
+    font-size: 12px;
+    width: 100%;
+    overflow: hidden;
+    padding: 0 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+.acrid_label {
+    position: relative;
+    display: inline-block;
+    padding: 5px 7px 4px;
+    font-size: 10.15px;
+    line-height: 14px;
+    color: #fff;
+    vertical-align: baseline;
+    white-space: nowrap;
+    background-color: #999;
+    margin-right: 8px;
+    padding: 2px 7px;
+}
+
+.acrid_prv {
+    float: right;
+    margin-right: 15px;
+    color: #999;
+}
+
+.acrid_data {
+    color: #999999;
+    float: right;
+    line-height: 1.4em;
+    right: 0;
+}
+
+.acrid_item1 {
+    /*display: flex;*/
+    /*justify-main: space-between;*/
+    /*align-items: center;*/
+    overflow: hidden;
+    clear: both;
+    height: 20px;
+    margin-bottom: 9px;
+}
+
+.acrid_widget_titx {
+    height: 25px;
+    font-size: 14px;
+    border-bottom: solid 1px #e6e6e6;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+}
+
+/*在小于480 像素的屏幕，微小屏幕，更低分辨率的手机*/
+/*@media (max-width: 940px) {*/
+/*    .nav_logo {*/
+/*        margin: 0 0 20px 0;*/
+/*    }*/
+/*}*/
+

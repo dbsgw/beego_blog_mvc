@@ -1,0 +1,87 @@
+{{template "/admin/common/ly_header.html" .}}
+
+<style>
+    .home {
+        display: flex;
+    }
+
+    .home_sidebar {
+        width: 250px;
+        height: calc(100vh - 68px);
+        background-color: #ffffff;
+    }
+
+    .home_container {
+        flex: 1;
+        padding: 20px;
+    }
+</style>
+<div class="home">
+    <div class="home_sidebar">
+        <!--        侧边栏-->
+        {{template "/admin/common/ly_sidebar.html" .}}
+    </div>
+    <div class="home_container">
+        <h1>写文章</h1>
+        <div class="uk-card uk-card-default uk-card-body ">
+            <div class="uk-overflow-auto">
+                <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                    <thead>
+                    <tr>
+                        <th class="uk-table-shrink"></th>
+                        <th class="uk-table-expand">序号</th>
+                        <th class="uk-table-expand">名称</th>
+                        <th class="uk-table-expand">描述</th>
+                        <th class="uk-table-expand">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{range $index,$elem := .Article}}
+                    <tr>
+                        <td><input class="uk-checkbox" type="checkbox"></td>
+                        <td>{{$elem.id}}</td>
+                        <td>{{$elem.title}}</td>
+                        <td class="uk-table-link">
+                           {{$elem.content}}
+                        </td>
+                        <td>
+                            <input type="hidden" value="{{$elem.id}}">
+                            <button class="uk-button uk-button-primary admin_edit">编辑</button>
+                            <button class="uk-button uk-button-danger admin_del">删除</button>
+                        </td>
+                    </tr>
+                    {{end}}
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <script
+                type="text/javascript"
+                src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"
+        ></script>
+        <script>
+            $('.admin_edit').click(function () {
+                console.log(1111, $(this).parent().find('input').val())
+                location.href = "/admin/EditWrite?id=" + $(this).parent().find('input').val()
+            })
+            $('.admin_del').click(function () {
+                console.log(1111, $(this).parent().find('input').val())
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/delWrite",
+                    data: {
+                        id: $(this).parent().find('input').val()
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data, 'data', data.code)
+                        window.location.href = "/admin/admin"
+                    }
+                });
+            })
+        </script>
+    </div>
+</div>
+{{template "/admin/common/ly_footer.html" .}}
