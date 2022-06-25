@@ -9,12 +9,10 @@ type BaseController struct {
 	beego.Controller
 }
 
-/*
-首页查询接口
-*/
+// InitData 首页查询接口
 func (c *BaseController) InitData() {
 
-	results := []map[string]interface{}{}
+	var results []map[string]interface{}
 	utils.DB.Raw("select * from sort").Find(&results)
 
 	c.Data["Sort"] = results
