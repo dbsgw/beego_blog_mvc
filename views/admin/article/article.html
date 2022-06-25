@@ -39,13 +39,13 @@
                     {{range $index,$elem := .Article}}
                     <tr>
                         <td><input class="uk-checkbox" type="checkbox"></td>
-                        <td>{{$elem.id}}</td>
-                        <td>{{$elem.title}}</td>
+                        <td>{{$elem.Id}}</td>
+                        <td>{{$elem.Title}}</td>
                         <td class="uk-table-link">
-                           {{$elem.content}}
+                           {{$elem.Content}}
                         </td>
                         <td>
-                            <input type="hidden" value="{{$elem.id}}">
+                            <input type="hidden" value="{{$elem.Id}}">
                             <button class="uk-button uk-button-primary admin_edit">编辑</button>
                             <button class="uk-button uk-button-danger admin_del">删除</button>
                         </td>

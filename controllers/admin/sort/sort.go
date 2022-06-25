@@ -1,9 +1,10 @@
 package SortController
 
 import (
+	"beego_blog_mvc/models"
 	"beego_blog_mvc/utils"
-	"fmt"
 	beego "github.com/beego/beego/v2/server/web"
+	"time"
 )
 
 type SortController struct {
@@ -12,12 +13,13 @@ type SortController struct {
 
 // Get 获取分类
 func (c *SortController) Get() {
-	var results []map[string]interface{}
-	err := utils.DB.Debug().Raw("select * from sort").Find(&results).Error
+	var sort []models.Sort
+	err := utils.DB.Find(&sort).Error
 	if err != nil {
 		c.Ctx.WriteString("分类获取失败")
+		return
 	}
-	c.Data["Arr"] = results
+	c.Data["Sort"] = sort
 	c.TplName = "admin/sort/sort.html"
 }
 
@@ -33,66 +35,79 @@ func (c *SortController) AddSortPost() {
 		c.Ctx.WriteString("分类名称不能为空")
 		return
 	}
-	var results []map[string]interface{}
-	err := utils.DB.Debug().Raw("INSERT INTO sort(title, add_time) VALUES (?, ?)", name, utils.GetUnix()).Find(&results).Error
+	sort := models.Sort{
+		Model: models.Model{
+			CreatedAt: time.Now(),
+		},
+		Title: name,
+	}
+	err := utils.DB.Create(&sort).Error
 	if err != nil {
 		c.Ctx.WriteString("添加失败")
 	} else {
-		fmt.Println(name, "添加成功", utils.GetUnix())
 		c.Redirect("/admin/sort", 301)
 	}
-	fmt.Println(err, results, "===")
 }
 
 // EditSort 渲染 编辑分类
 func (c *SortController) EditSort() {
 	id := c.GetString("id")
-	result := map[string]interface{}{}
-	utils.DB.Raw("select * from sort where id = ?", id).Find(&result)
-	fmt.Println(result, "id---")
-
-	c.Data["Result"] = result
+	var sort models.Sort
+	utils.DB.Where("id = ?", id).Find(&sort)
+	c.Data["Result"] = sort
 	c.TplName = "admin/sort/edit_sort.html"
 }
 
 // EditSortPost 编辑分类的post
 func (c *SortController) EditSortPost() {
 	name := c.GetString("name")
-	id := c.GetString("id")
+	id, err := c.GetInt("id")
+	if err != nil {
+		c.Ctx.WriteString("id错误")
+		return
+	}
 	if name == "" {
 		c.Ctx.WriteString("分类名称不能为空")
 		return
 	}
-	var results []map[string]interface{}
-	err := utils.DB.Debug().Raw("update sort set title = ? where id = ?;", name, id).Find(&results).Error
+	sort := models.Sort{
+		Model: models.Model{
+			Id: uint(id),
+		},
+	}
+	err = utils.DB.Model(&sort).Updates(map[string]interface{}{"title": name}).Error
 	if err != nil {
 		c.Ctx.WriteString("编辑失败")
 	} else {
-		fmt.Println(name, "编辑成功", utils.GetUnix())
 		c.Redirect("/admin/sort", 301)
 	}
-	fmt.Println(err, results, "===")
 }
 
 // DelSort 删除分类
 func (c *SortController) DelSort() {
-	id := c.GetString("id")
-	result := map[string]interface{}{}
-	err := utils.DB.Raw("delete from sort where id = ?", id).Find(&result).Error
-	fmt.Println(result, "id---")
-
+	id, err := c.GetInt("id")
+	if err != nil {
+		c.Ctx.WriteString("id错误")
+		return
+	}
+	sort := models.Sort{
+		Model: models.Model{
+			Id: uint(id),
+		},
+	}
+	err = utils.DB.Delete(&sort).Error
 	if err != nil {
 		c.Data["json"] = map[string]interface{}{
 			"code": 20001,
 			"msg":  "创建失败",
-			"data": result,
+			"data": sort,
 		}
 	} else {
 		c.Data["json"] = map[string]interface{}{
 			"code": 20000,
 			"msg":  "创建成功",
-			"data": result,
+			"data": sort,
 		}
 	}
-	c.ServeJSON() // 返回json
+	c.ServeJSON()
 }

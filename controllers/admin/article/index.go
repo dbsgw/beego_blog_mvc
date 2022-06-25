@@ -1,9 +1,10 @@
 package ArticleController
 
 import (
+	"beego_blog_mvc/models"
 	"beego_blog_mvc/utils"
-	"fmt"
 	beego "github.com/beego/beego/v2/server/web"
+	"time"
 )
 
 type ArticleController struct {
@@ -12,12 +13,12 @@ type ArticleController struct {
 
 // Get 渲染创建文章页面
 func (c *ArticleController) Get() {
-	var results []map[string]interface{}
-	err := utils.DB.Raw("select * from sort").Find(&results).Error
+	var sort []models.Sort
+	err := utils.DB.Find(&sort).Error
 	if err != nil {
 		c.Ctx.WriteString("分类获取失败")
 	}
-	c.Data["Sort"] = results
+	c.Data["Sort"] = sort
 	c.TplName = "admin/article/add_article.html"
 }
 
@@ -26,54 +27,67 @@ func (c *ArticleController) AddWrite() {
 	title := c.GetString("title")
 	html := c.GetString("html")
 	text := c.GetString("text")
-	sort := c.GetString("sort")
+	sort, err := c.GetInt("sort")
+	if err != nil {
+		c.Ctx.WriteString("分类id错误")
+		return
+	}
 	//text = text[0:200] + "......"
-	var results []map[string]interface{}
-	err := utils.DB.Debug().Raw("insert into article(title, add_time,  sort_id, content_html) VALUES (?,?,?,?)", title, text, utils.GetUnix(), sort, html).Find(&results).Error
+	article := models.Article{
+		Model: models.Model{
+			CreatedAt: time.Now(),
+		},
+		Title:       title,
+		Content:     text,
+		ContentHtml: html,
+		SortId:      uint(sort),
+	}
+
+	err = utils.DB.Create(&article).Error
 	if err != nil {
 		c.Data["json"] = map[string]interface{}{
 			"code": 20001,
 			"msg":  "创建失败",
-			"data": results,
+			"data": article,
 		}
 	} else {
 		c.Data["json"] = map[string]interface{}{
 			"code": 20000,
 			"msg":  "创建成功",
-			"data": results,
+			"data": article,
 		}
 	}
 	c.ServeJSON() // 返回json
-
 }
 
 // GetAll 获取文章列表
 func (c *ArticleController) GetAll() {
-	var results []map[string]interface{}
-	err := utils.DB.Raw("SELECT * FROM article ORDER BY add_time DESC").Find(&results).Error
+	var article []models.Article
+	err := utils.DB.Order("created_at desc").Find(&article).Error
 	if err != nil {
 		c.Ctx.WriteString("文章获取失败")
 	}
-	c.Data["Article"] = results
+	c.Data["Article"] = article
 	c.TplName = "admin/article/article.html"
 }
 
 // EditWrite 渲染修改文章页面
 func (c *ArticleController) EditWrite() {
-
-	id := c.GetString("id")
-	result := map[string]interface{}{}
-	utils.DB.Raw("select * from article where id = ?", id).Find(&result)
-	fmt.Println(result, "id---")
-	var results []map[string]interface{}
-	err := utils.DB.Debug().Raw("select * from sort").Find(&results).Error
+	id, err := c.GetInt("id")
+	if err != nil {
+		c.Ctx.WriteString("id错误")
+		return
+	}
+	var article models.Article
+	utils.DB.Where("id = ?", id).Find(&article)
+	var sort []models.Sort
+	err = utils.DB.Find(&sort).Error
 	if err != nil {
 		c.Ctx.WriteString("分类获取失败")
+		return
 	}
-	c.Data["Sort"] = results
-
-	c.Data["Result"] = result
-	fmt.Println(results, result, "=====")
+	c.Data["Sort"] = sort
+	c.Data["Result"] = article
 	c.TplName = "admin/article/edit_article.html"
 }
 
@@ -83,22 +97,28 @@ func (c *ArticleController) EditWritePost() {
 	html := c.GetString("html")
 	text := c.GetString("text")
 	sort := c.GetString("sort")
-	id := c.GetString("id")
-	fmt.Println(title, html, text, sort)
-	var results []map[string]interface{}
-	err := utils.DB.Debug().Raw("UPDATE beego_mvc_blog.article t SET t.title = ?,content_html=?,t.sort_id=? WHERE t.id = ?", title, html, sort, id).Find(&results).Error
-	c.Data["Article"] = results
+	id, err := c.GetInt("id")
+	if err != nil {
+		c.Ctx.WriteString("id错误")
+		return
+	}
+	article := models.Article{
+		Model: models.Model{
+			Id: uint(id),
+		},
+	}
+	err = utils.DB.Model(&article).Updates(map[string]interface{}{"title": title, "content_html": html, "content": text, "sort_id": sort}).Error
 	if err != nil {
 		c.Data["json"] = map[string]interface{}{
 			"code": 20001,
 			"msg":  "创建失败",
-			"data": results,
+			"data": article,
 		}
 	} else {
 		c.Data["json"] = map[string]interface{}{
 			"code": 20000,
 			"msg":  "创建成功",
-			"data": results,
+			"data": article,
 		}
 	}
 	c.ServeJSON() // 返回json
@@ -106,22 +126,28 @@ func (c *ArticleController) EditWritePost() {
 
 // DelWrite 删除文章
 func (c *ArticleController) DelWrite() {
-	id := c.GetString("id")
-	result := map[string]interface{}{}
-	err := utils.DB.Raw("delete from article where id = ?", id).Find(&result).Error
-	fmt.Println(result, "id---")
-
+	id, err := c.GetInt("id")
+	if err != nil {
+		c.Ctx.WriteString("id错误")
+		return
+	}
+	article := models.Article{
+		Model: models.Model{
+			Id: uint(id),
+		},
+	}
+	err = utils.DB.Delete(&article).Error
 	if err != nil {
 		c.Data["json"] = map[string]interface{}{
 			"code": 20001,
 			"msg":  "创建失败",
-			"data": result,
+			"data": article,
 		}
 	} else {
 		c.Data["json"] = map[string]interface{}{
 			"code": 20000,
 			"msg":  "创建成功",
-			"data": result,
+			"data": article,
 		}
 	}
 	c.ServeJSON() // 返回json

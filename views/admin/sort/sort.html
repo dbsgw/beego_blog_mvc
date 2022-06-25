@@ -35,12 +35,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{range $index,$elem := .Arr}}
+                {{range $index,$elem := .Sort}}
                 <tr>
-                    <td>{{$elem.title}}</td>
+                    <td>{{$elem.Title}}</td>
                     <td>19</td>
                     <td>
-                        <input type="hidden" value="{{$elem.id}}">
+                        <input type="hidden" value="{{$elem.Id}}">
                         <button class="uk-button uk-button-primary sort_edit">编辑</button>
                         <button class="uk-button uk-button-danger sort_del">删除</button>
                     </td>

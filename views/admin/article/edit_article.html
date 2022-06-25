@@ -25,26 +25,25 @@
         <h1>写文章</h1>
         <div class="uk-grid ">
             <div class="uk-width-2-3@m">
-                <input type="hidden" value="{{.Result.id}}" id="id">
+                <input type="hidden" value="{{.Result.Id}}" id="id">
                 <input class="uk-input " type="text" name="username" placeholder="文章标题" id="title"
-                       value="{{.Result.title}}">
+                       value="{{.Result.Title}}">
                 <div id="div1" style="margin-top: 10px">
                 </div>
             </div>
             <div class="uk-width-1-3@m ">
-
+                {{$id := .Result.SortId}}
                 <div class="uk-form-stacked" style="text-align: left">
                     <label class="uk-form-label" for="form-stacked-text">选择分类</label>
                     <div class="uk-form-controls">
                         <select class="uk-select sort" id="form-stacked-text">
-                            {{$id := .Result.sort_id}}
-                                {{range $index,$elem:= .Sort}}
-                                    {{if eq $id $elem.id}}
-                                        <option selected value="{{$elem.id}}">{{$elem.title}}</option>
-                                    {{else}}
-                                        <option value="{{$elem.id}}">{{$elem.title}}</option>
-                                    {{end}}
+                            {{range $index,$elem:= .Sort}}
+                                {{if eq $id $elem.Id}}
+                                <option selected value="{{$elem.Id}}">{{$elem.Title}}</option>
+                                {{else}}
+                                <option value="{{$elem.Id}}">{{$elem.Title}}</option>
                                 {{end}}
+                            {{end}}
                         </select>
                     </div>
                 </div>
@@ -68,7 +67,7 @@
             const editor = new E("#div1")
             // 或者 const editor = new E(document.getElementById('div1'))
             editor.create()
-            editor.txt.html({{.Result.content_html}})
+            editor.txt.html({{.Result.ContentHtml}})
 
             var btn = document.querySelector('#btn')
             btn.addEventListener('click', function () {
@@ -78,7 +77,7 @@
                     html: editor.txt.html(),
                     text: editor.txt.text(),
                     sort: $('.sort').val(),
-                    id:$('#id').val()
+                    id: $('#id').val()
                 }
                 // 发生post请求
                 $.ajax({

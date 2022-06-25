@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	beego "github.com/beego/beego/v2/server/web"
 	context2 "github.com/beego/beego/v2/server/web/context"
 	"github.com/dgrijalva/jwt-go"
@@ -13,23 +12,13 @@ func AdminAuth(ctx *context2.Context) {
 	urlPath, _ := url.Parse(pathname) //urlPath.Path  /role/edit
 	if string(urlPath.Path) != "/admin/login" {
 		cookie := ctx.Input.Cookie("token")
-		fmt.Println(cookie)
 		Secret, _ := beego.AppConfig.String("Secret")
 		_, err := ParseToken(cookie, Secret)
 		if err != nil {
-			data := map[string]interface{}{
-				"code": 50014,
-				"data": false,
-				"msg":  "cookie登录失败",
-			}
-			fmt.Println(data)
-			//str, _ := json.Marshal(data)
-			//ctx.Output.Body(str)
 			ctx.SetCookie("token", "", -1)
 			ctx.Redirect(302, "/admin/login")
 		}
 	}
-
 }
 
 // ParseToken 解析token

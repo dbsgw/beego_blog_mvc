@@ -6,7 +6,7 @@ type Article struct {
 	Title       string `gorm:"comment:标题"`                   // 标题
 	Content     string `gorm:"type:longtext;comment:姓名"`     // mk内容
 	ContentHtml string `gorm:"type:longtext;comment:html内容"` // html内容
-	SortId      int64  // 分类Id
+	SortId      uint   // 分类Id
 }
 
 // TableName 重命名表

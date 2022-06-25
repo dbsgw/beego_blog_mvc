@@ -1,8 +1,8 @@
 package LoginController
 
 import (
+	"beego_blog_mvc/models"
 	"beego_blog_mvc/utils"
-	"fmt"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -11,11 +11,6 @@ type LoginController struct {
 }
 
 func (c *LoginController) Get() {
-	fmt.Println(utils.GetDay(), utils.GetUnix(), utils.GetUnixNano())
-	utils.DB.Raw("show databases")
-	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"
-	c.Data["Arr"] = [5]int{1, 2, 3, 4, 5}
 	c.TplName = "admin/login/index.html"
 }
 
@@ -32,13 +27,12 @@ func (c *LoginController) Post() {
 		c.ServeJSON()
 		return
 	}
-	var result []map[string]interface{}
-	utils.DB.Raw("SELECT * FROM users WHERE username=? AND password =?", username, password).Find(&result)
-	if len(result) > 0 {
+	var user []models.User
+	utils.DB.Where("username=? AND password =?", username, password).Find(&user)
+	if len(user) > 0 {
 		// 有内容
 		Secret, _ := beego.AppConfig.String("Secret")
 		token, _ := utils.CreateToken(username, Secret)
-
 		c.Data["json"] = map[string]interface{}{
 			"code":  true,
 			"token": token,
