@@ -1,4 +1,4 @@
-package admin
+package LoginController
 
 import (
 	"beego_blog_mvc/utils"
@@ -16,10 +16,10 @@ func (c *LoginController) Get() {
 	c.Data["Website"] = "beego.me"
 	c.Data["Email"] = "astaxie@gmail.com"
 	c.Data["Arr"] = [5]int{1, 2, 3, 4, 5}
-	c.TplName = "admin/index.html"
+	c.TplName = "admin/login/index.html"
 }
 
-// 登录发token的
+// Post 登录发token的
 func (c *LoginController) Post() {
 	username := c.GetString("username")
 	password := c.GetString("password")
@@ -32,12 +32,12 @@ func (c *LoginController) Post() {
 		c.ServeJSON()
 		return
 	}
-	result := []map[string]interface{}{}
+	var result []map[string]interface{}
 	utils.DB.Raw("SELECT * FROM users WHERE username=? AND password =?", username, password).Find(&result)
 	if len(result) > 0 {
 		// 有内容
-		Secrect, _ := beego.AppConfig.String("Secrect")
-		token, _ := utils.CreateToken(username, Secrect)
+		Secret, _ := beego.AppConfig.String("Secret")
+		token, _ := utils.CreateToken(username, Secret)
 
 		c.Data["json"] = map[string]interface{}{
 			"code":  true,
@@ -52,11 +52,9 @@ func (c *LoginController) Post() {
 		}
 	}
 	c.ServeJSON()
-
 }
 
 func (c *LoginController) Logout() {
-	c.Ctx.SetCookie("token","",-1)
-	c.Redirect("/",301)
+	c.Ctx.SetCookie("token", "", -1)
+	c.Redirect("/", 301)
 }
-

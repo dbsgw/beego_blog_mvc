@@ -1,5 +1,4 @@
 {{template "/admin/common/ly_header.html" .}}
-
 <style>
     .home {
         display: flex;
@@ -60,7 +59,6 @@
             console.log(1111, $(this).parent().find('input').val())
             console.log('删除')
             // delSort
-
             $.ajax({
                 type: "POST",
                 url: "/admin/delSort",
@@ -75,6 +73,5 @@
             });
         })
     </script>
-
 </div>
 {{template "/admin/common/ly_footer.html" .}}

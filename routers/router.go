@@ -2,6 +2,9 @@ package routers
 
 import (
 	"beego_blog_mvc/controllers/admin"
+	ArticleController "beego_blog_mvc/controllers/admin/article"
+	LoginController "beego_blog_mvc/controllers/admin/login"
+	adminSort "beego_blog_mvc/controllers/admin/sort"
 	"beego_blog_mvc/controllers/web"
 	"beego_blog_mvc/controllers/web/category"
 	"beego_blog_mvc/controllers/web/sort"
@@ -24,24 +27,25 @@ func init() {
 
 		beego.NSBefore(middleware.AdminAuth),
 		// 登录login
-		beego.NSRouter("/login", &admin.LoginController{}),
-		beego.NSRouter("/logout", &admin.LoginController{}, "get:Logout"),
+		beego.NSRouter("/login", &LoginController.LoginController{}),
+		beego.NSRouter("/logout", &LoginController.LoginController{}, "get:Logout"),
 
+		// 文章管理
 		beego.NSRouter("/home", &admin.HomeController{}),
-		beego.NSRouter("/write", &admin.WriteController{}),
-		beego.NSRouter("/addWrite", &admin.WriteController{}, "post:AddWrite"),
-		beego.NSRouter("/admin", &admin.AdminController{}),
-		beego.NSRouter("/EditWrite", &admin.AdminController{}, "get:EditWrite"),
-		beego.NSRouter("/EditWrite", &admin.AdminController{}, "post:EditWritePost"),
-		beego.NSRouter("/delWrite", &admin.AdminController{}, "post:DelWrite"),
+		beego.NSRouter("/write", &ArticleController.ArticleController{}),
+		beego.NSRouter("/addWrite", &ArticleController.ArticleController{}, "post:AddWrite"),
+		beego.NSRouter("/admin", &ArticleController.ArticleController{}, "get:GetAll"),
+		beego.NSRouter("/EditWrite", &ArticleController.ArticleController{}, "get:EditWrite"),
+		beego.NSRouter("/EditWrite", &ArticleController.ArticleController{}, "post:EditWritePost"),
+		beego.NSRouter("/delWrite", &ArticleController.ArticleController{}, "post:DelWrite"),
 
-		// 分类
-		beego.NSRouter("/sort", &admin.SortController{}),
-		beego.NSRouter("/addSort", &admin.SortController{}, "get:AddSort"),
-		beego.NSRouter("/addSort", &admin.SortController{}, "post:AddSortPost"),
-		beego.NSRouter("/editSort", &admin.SortController{}, "get:EditSort"),
-		beego.NSRouter("/editSort", &admin.SortController{}, "post:EditSortPost"),
-		beego.NSRouter("/delSort", &admin.SortController{}, "post:DelSort"),
+		// 分类管理
+		beego.NSRouter("/sort", &adminSort.SortController{}),
+		beego.NSRouter("/addSort", &adminSort.SortController{}, "get:AddSort"),
+		beego.NSRouter("/addSort", &adminSort.SortController{}, "post:AddSortPost"),
+		beego.NSRouter("/editSort", &adminSort.SortController{}, "get:EditSort"),
+		beego.NSRouter("/editSort", &adminSort.SortController{}, "post:EditSortPost"),
+		beego.NSRouter("/delSort", &adminSort.SortController{}, "post:DelSort"),
 	)
 	beego.AddNamespace(nsAdmin)
 }

@@ -1,4 +1,4 @@
-package admin
+package SortController
 
 import (
 	"beego_blog_mvc/utils"
@@ -10,30 +10,30 @@ type SortController struct {
 	beego.Controller
 }
 
-// 获取分类
+// Get 获取分类
 func (c *SortController) Get() {
-	results := []map[string]interface{}{}
+	var results []map[string]interface{}
 	err := utils.DB.Debug().Raw("select * from sort").Find(&results).Error
 	if err != nil {
 		c.Ctx.WriteString("分类获取失败")
 	}
 	c.Data["Arr"] = results
-	c.TplName = "admin/sort.html"
+	c.TplName = "admin/sort/sort.html"
 }
 
-// 渲染 添加分类
+// AddSort 渲染添加分类
 func (c *SortController) AddSort() {
-	c.TplName = "admin/add_sort.html"
+	c.TplName = "admin/sort/add_sort.html"
 }
 
-// 添加分类的post
+// AddSortPost 添加分类的post
 func (c *SortController) AddSortPost() {
 	name := c.GetString("name")
 	if name == "" {
 		c.Ctx.WriteString("分类名称不能为空")
 		return
 	}
-	results := []map[string]interface{}{}
+	var results []map[string]interface{}
 	err := utils.DB.Debug().Raw("INSERT INTO sort(title, add_time) VALUES (?, ?)", name, utils.GetUnix()).Find(&results).Error
 	if err != nil {
 		c.Ctx.WriteString("添加失败")
@@ -44,7 +44,7 @@ func (c *SortController) AddSortPost() {
 	fmt.Println(err, results, "===")
 }
 
-// 渲染 编辑分类
+// EditSort 渲染 编辑分类
 func (c *SortController) EditSort() {
 	id := c.GetString("id")
 	result := map[string]interface{}{}
@@ -52,10 +52,10 @@ func (c *SortController) EditSort() {
 	fmt.Println(result, "id---")
 
 	c.Data["Result"] = result
-	c.TplName = "admin/edit_sort.html"
+	c.TplName = "admin/sort/edit_sort.html"
 }
 
-// 编辑分类的post
+// EditSortPost 编辑分类的post
 func (c *SortController) EditSortPost() {
 	name := c.GetString("name")
 	id := c.GetString("id")
@@ -63,7 +63,7 @@ func (c *SortController) EditSortPost() {
 		c.Ctx.WriteString("分类名称不能为空")
 		return
 	}
-	results := []map[string]interface{}{}
+	var results []map[string]interface{}
 	err := utils.DB.Debug().Raw("update sort set title = ? where id = ?;", name, id).Find(&results).Error
 	if err != nil {
 		c.Ctx.WriteString("编辑失败")
@@ -74,7 +74,7 @@ func (c *SortController) EditSortPost() {
 	fmt.Println(err, results, "===")
 }
 
-// 删除分类
+// DelSort 删除分类
 func (c *SortController) DelSort() {
 	id := c.GetString("id")
 	result := map[string]interface{}{}
@@ -87,7 +87,7 @@ func (c *SortController) DelSort() {
 			"msg":  "创建失败",
 			"data": result,
 		}
-	}else {
+	} else {
 		c.Data["json"] = map[string]interface{}{
 			"code": 20000,
 			"msg":  "创建成功",

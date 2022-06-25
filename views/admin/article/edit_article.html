@@ -25,7 +25,9 @@
         <h1>写文章</h1>
         <div class="uk-grid ">
             <div class="uk-width-2-3@m">
-                <input class="uk-input " type="text" name="username" placeholder="文章标题" id="title">
+                <input type="hidden" value="{{.Result.id}}" id="id">
+                <input class="uk-input " type="text" name="username" placeholder="文章标题" id="title"
+                       value="{{.Result.title}}">
                 <div id="div1" style="margin-top: 10px">
                 </div>
             </div>
@@ -35,9 +37,14 @@
                     <label class="uk-form-label" for="form-stacked-text">选择分类</label>
                     <div class="uk-form-controls">
                         <select class="uk-select sort" id="form-stacked-text">
-                            {{range $index,$elem:= .Sort}}
-                            <option value="{{$elem.id}}">{{$elem.title}}</option>
-                            {{end}}
+                            {{$id := .Result.sort_id}}
+                                {{range $index,$elem:= .Sort}}
+                                    {{if eq $id $elem.id}}
+                                        <option selected value="{{$elem.id}}">{{$elem.title}}</option>
+                                    {{else}}
+                                        <option value="{{$elem.id}}">{{$elem.title}}</option>
+                                    {{end}}
+                                {{end}}
                         </select>
                     </div>
                 </div>
@@ -57,13 +64,14 @@
 
         <script
                 type="text/javascript"
-                src="/static/js/admin/wangEditor.min.js"
+                src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"
         ></script>
         <script type="text/javascript">
             const E = window.wangEditor
             const editor = new E("#div1")
             // 或者 const editor = new E(document.getElementById('div1'))
             editor.create()
+            editor.txt.html({{.Result.content_html}})
 
             var btn = document.querySelector('#btn')
             btn.addEventListener('click', function () {
@@ -73,15 +81,16 @@
                     html: editor.txt.html(),
                     text: editor.txt.text(),
                     sort: $('.sort').val(),
+                    id:$('#id').val()
                 }
                 // 发生post请求
                 $.ajax({
                     type: "POST",
-                    url: "/admin/addWrite",
+                    url: "/admin/EditWrite",
                     data: data,
                     dataType: "json",
                     success: function (data) {
-                        console.log(data, 'data',data.code)
+                        console.log(data, 'data', data.code)
                         window.location.href = "/admin/admin"
                     }
                 });

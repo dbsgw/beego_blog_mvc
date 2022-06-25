@@ -14,8 +14,8 @@ func AdminAuth(ctx *context2.Context) {
 	if string(urlPath.Path) != "/admin/login" {
 		cookie := ctx.Input.Cookie("token")
 		fmt.Println(cookie)
-		Secrect, _ := beego.AppConfig.String("Secrect")
-		_, err := ParseToken(cookie, Secrect)
+		Secret, _ := beego.AppConfig.String("Secret")
+		_, err := ParseToken(cookie, Secret)
 		if err != nil {
 			data := map[string]interface{}{
 				"code": 50014,
@@ -25,14 +25,14 @@ func AdminAuth(ctx *context2.Context) {
 			fmt.Println(data)
 			//str, _ := json.Marshal(data)
 			//ctx.Output.Body(str)
-			ctx.SetCookie("token","",-1)
-			ctx.Redirect( 302,"/admin/login")
+			ctx.SetCookie("token", "", -1)
+			ctx.Redirect(302, "/admin/login")
 		}
 	}
 
 }
 
-// 解析token
+// ParseToken 解析token
 func ParseToken(token string, secret string) (string, error) {
 	claim, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
 		return []byte(secret), nil
