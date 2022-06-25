@@ -1,9 +1,9 @@
-package category
+package CategoryController
 
 import (
 	"beego_blog_mvc/controllers/web"
+	"beego_blog_mvc/models"
 	"beego_blog_mvc/utils"
-	"fmt"
 )
 
 type CategoryController struct {
@@ -13,9 +13,8 @@ type CategoryController struct {
 func (c *CategoryController) Category() {
 	c.InitData()
 	id := c.Ctx.Input.Param(":id")
-	fmt.Println(id)
-	result := map[string]interface{}{}
-	utils.DB.Raw("select * from article where id = ?", id).Find(&result)
-	c.Data["Article"] = result
+	var article models.Article
+	utils.DB.Where("id = ?", id).Find(&article)
+	c.Data["Article"] = article
 	c.TplName = "web/category/category.html"
 }

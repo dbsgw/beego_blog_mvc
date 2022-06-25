@@ -1,12 +1,8 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
-
 // Sort 的定义
 type Sort struct {
-	gorm.Model
+	Model
 	Title string `gorm:"comment:标题"` // 标题
 }
 

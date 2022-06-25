@@ -9,21 +9,19 @@
         <nav class="nav">
             <a href="/">首页</a>
             {{range $index,$elem := .Sort}}
-            <a href="/sort/{{$elem.id}}">{{$elem.title}}</a>
+            <a href="/sort/{{$elem.Id}}">{{$elem.Title}}</a>
             {{end}}
             {{if .Cookie}}
             <a href="/admin/home">管理中心</a>
-
             {{else}}
             <a href="/admin/login">登录</a>
-
             {{end}}
         </nav>
     </div>
     <!--    web-->
     <div class="w nav_container uk-hidden@m">
         <h1 class="nav_logo">
-            <a  href="/" style="display: flex">
+            <a href="/" style="display: flex">
                 <img src="https://blog.dbsgw.com/logo.png" alt="logo">
             </a>
         </h1>
@@ -38,23 +36,17 @@
         <!--web的nav-->
         <div id="offcanvas-overlay" uk-offcanvas="overlay: true">
             <div class="uk-offcanvas-bar">
-
                 <button class="uk-offcanvas-close" type="button" uk-close></button>
-
-
                 <!--                <h3>前端笔记</h3>-->
-
                 <nav class="nav web_nav">
                     <a href="/">首页</a>
                     {{range $index,$elem := .Sort}}
-                    <a href="/sort/{{$elem.id}}">{{$elem.title}}</a>
+                    <a href="/sort/{{$elem.Id}}">{{$elem.Title}}</a>
                     {{end}}
                     {{if .Cookie}}
                     <a href="/admin/home">管理中心</a>
-
                     {{else}}
                     <a href="/admin/login">登录</a>
-
                     {{end}}
                 </nav>
             </div>
@@ -64,14 +56,5 @@
                 display: block;
             }
         </style>
-
-        <!--        <nav class="nav">-->
-        <!--            <a href="/">首页</a>-->
-        <!--            {{range $index,$elem := .Sort}}-->
-        <!--            <a href="/sort/{{$elem.id}}">{{$elem.title}}</a>-->
-        <!--            {{end}}-->
-        <!--            <a href="/admin/login">登录</a>-->
-        <!--        </nav>-->
     </div>
-
 </header>

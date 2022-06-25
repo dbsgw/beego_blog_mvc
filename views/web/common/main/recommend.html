@@ -9,9 +9,9 @@
             <div class="acrid_item1_left" style="width: 20px;position: absolute;left: 0;top: 0">
                 <span class="acrid_label">{{$index | index}}</span>
             </div>
-            <div class="acrid_item1_center fcc" style="width: 100%;margin-left: 25px;margin-right: 185px;justify-content: left">
-                                <a href="/category/{{$elem.id}}">{{$elem.title}}</a>
-<!--                {{$elem.title}}-->
+            <div class="acrid_item1_center fcc"
+                 style="width: 100%;margin-left: 25px;margin-right: 185px;justify-content: left">
+                <a href="/category/{{$elem.Id}}">{{$elem.Title}}</a>
             </div>
             <div class="acrid_item1_right fcc"
                  style="width: 180px;position:absolute;right: 0;top: 0;background-color: #ffffff">
@@ -19,9 +19,8 @@
                         <i class="glyphicon glyphicon-eye-open"></i>
                          阅读（47）
                      </span>
-                <span class="acrid_data">{{$elem.add_time }}</span>
+                <span class="acrid_data">{{$elem.CreatedAt }}</span>
             </div>
-
         </li>
         {{end}}
     </ul>

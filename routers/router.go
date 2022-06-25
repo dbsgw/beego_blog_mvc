@@ -16,9 +16,9 @@ func init() {
 	// 博客前台
 	beego.Router("/", &web.MainController{})
 	// 分类详情
-	beego.Router("/sort/:id", &sort.SortController{})
+	beego.Router("/sort/:id", &SortController.SortController{})
 	// 文章详情
-	beego.Router("/category/:id", &category.CategoryController{}, "get:Category")
+	beego.Router("/category/:id", &CategoryController.CategoryController{}, "get:Category")
 
 	// 博客后台api
 	var nsAdmin = beego.NewNamespace("/admin",

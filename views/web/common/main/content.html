@@ -1,6 +1,6 @@
-{{range $index,$elem := .Arr}}
+{{range $index,$elem := .Article}}
 <article>
-    <a href="/category/{{$elem.id}}" class="a">
+    <a href="/category/{{$elem.Id}}" class="a">
         <div class="uk-card uk-card-default uk-card-body uk-animation-slide-bottom article"
              style="margin: 10px 0 ">
             <div class="article_container ">
@@ -9,10 +9,10 @@
                 </div>
                 <div class="article_right">
                     <div class="article_right_title">
-                        <h3>{{$elem.title}}</h3>
+                        <h3>{{$elem.Title}}</h3>
                     </div>
                     <div class="article_right_describe uk-visible@m">
-                        {{$elem.content}}
+                        {{$elem.Content}}
                     </div>
                 </div>
             </div>

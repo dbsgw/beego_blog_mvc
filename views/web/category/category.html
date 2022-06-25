@@ -19,8 +19,8 @@
 <div class="w index" style="margin-top: 20px">
     <div class="index_left">
         <div class="uk-card uk-card-default uk-card-body " style="margin-bottom: 20px">
-            <h3 class="uk-card-title">{{.Article.title}}</h3>
-            {{.Article.content_html | str2html}}
+            <h3 class="uk-card-title">{{.Article.Title}}</h3>
+            {{.Article.ContentHtml | str2html}}
         </div>
     </div>
     {{template "/web/common/sidebar/index.html" .}}
