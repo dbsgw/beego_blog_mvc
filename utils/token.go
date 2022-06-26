@@ -6,11 +6,11 @@ import (
 	"time"
 )
 
-//设置token
+// CreateToken 设置token
 func CreateToken(uid, secret string) (string, error) {
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"uid": uid,
-		"exp": time.Now().Add(time.Minute * 15).Unix(), // 15分钟
+		"exp": time.Now().Add(time.Minute * 60 * 24).Unix(), // 1天
 	})
 	token, err := at.SignedString([]byte(secret))
 	if err != nil {
@@ -19,7 +19,7 @@ func CreateToken(uid, secret string) (string, error) {
 	return token, nil
 }
 
-//删除token
+// DeleteToken 删除token
 func DeleteToken(uid, secret string) (string, error) {
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"uid": uid,
@@ -32,7 +32,7 @@ func DeleteToken(uid, secret string) (string, error) {
 	return token, nil
 }
 
-// 解析token
+// ParseToken 解析token
 func ParseToken(token string, secret string) (string, error) {
 	claim, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
 		return []byte(secret), nil

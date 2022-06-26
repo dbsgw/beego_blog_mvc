@@ -32,7 +32,9 @@ func (c *ArticleController) AddWrite() {
 		c.Ctx.WriteString("分类id错误")
 		return
 	}
-	//text = text[0:200] + "......"
+	if text != "" {
+		text = text[:100] + "......"
+	}
 	article := models.Article{
 		Model: models.Model{
 			CreatedAt: time.Now(),
@@ -97,6 +99,9 @@ func (c *ArticleController) EditWritePost() {
 	html := c.GetString("html")
 	text := c.GetString("text")
 	sort := c.GetString("sort")
+	if text != "" {
+		text = text[:100] + "......"
+	}
 	id, err := c.GetInt("id")
 	if err != nil {
 		c.Ctx.WriteString("id错误")

@@ -14,6 +14,7 @@
     .home_container {
         flex: 1;
         padding: 20px;
+        overflow: hidden;
     }
 </style>
 <div class="home">
@@ -28,22 +29,16 @@
                 <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
                     <thead>
                     <tr>
-                        <th class="uk-table-shrink"></th>
-                        <th class="uk-table-expand">序号</th>
+                        <th class="uk-table-shrink">index</th>
                         <th class="uk-table-expand">名称</th>
-                        <th class="uk-table-expand">描述</th>
                         <th class="uk-table-expand">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     {{range $index,$elem := .Article}}
                     <tr>
-                        <td><input class="uk-checkbox" type="checkbox"></td>
                         <td>{{$elem.Id}}</td>
                         <td>{{$elem.Title}}</td>
-                        <td class="uk-table-link">
-                           {{$elem.Content}}
-                        </td>
                         <td>
                             <input type="hidden" value="{{$elem.Id}}">
                             <button class="uk-button uk-button-primary admin_edit">编辑</button>

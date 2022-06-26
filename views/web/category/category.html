@@ -8,6 +8,7 @@
 
     .index_left {
         flex: 1;
+        overflow: auto;
     }
 
     .index_right {
@@ -19,8 +20,12 @@
 <div class="w index" style="margin-top: 20px">
     <div class="index_left">
         <div class="uk-card uk-card-default uk-card-body " style="margin-bottom: 20px">
-            <h3 class="uk-card-title">{{.Article.Title}}</h3>
-            {{.Article.ContentHtml | str2html}}
+            <div  class="uk-card-title">
+                {{.Article.Title}}
+            </div>
+            <div style="overflow: auto">
+                {{.Article.ContentHtml | str2html}}
+            </div>
         </div>
     </div>
     {{template "/web/common/sidebar/index.html" .}}
